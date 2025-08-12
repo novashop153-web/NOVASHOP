@@ -2,11 +2,13 @@
   publish = "."
   command = ""
 
+# Redirections pour le SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# En-têtes pour toutes les réponses
 [[headers]]
   for = "/*"
   [headers.values]
@@ -16,3 +18,23 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Content-Security-Policy = "default-src 'self' https://*.mychariow.com https://i.ibb.co; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.mychariow.com;"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Configuration spécifique pour le service worker
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
+
+# Configuration pour les fichiers PWA
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+    Content-Type = "application/manifest+json; charset=utf-8"
+
+# Configuration pour les icônes et assets PWA
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
