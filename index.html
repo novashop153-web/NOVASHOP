@@ -68,18 +68,64 @@
             });
         }
 
-        // Redirection vers le site NOVASHOP après 1 seconde
-        setTimeout(function() {
-            window.location.href = 'https://dgheoidk.mychariow.com';
-        }, 1000);
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        // Afficher le bouton d'installation si l'événement beforeinstallprompt est déclenché
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Empêcher le mini-infobar d'apparaître sur mobile
+            e.preventDefault();
+            // Stocker l'événement pour l'utiliser plus tard
+            deferredPrompt = e;
+            // Afficher le bouton d'installation
+            installButton.style.display = 'block';
+        });
+
+        // Gérer le clic sur le bouton d'installation
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            // Afficher l'invite d'installation
+            deferredPrompt.prompt();
+            
+            // Attendre que l'utilisateur réponde à l'invite
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            
+            // Réinitialiser la variable deferredPrompt car elle ne peut être utilisée qu'une seule fois
+            deferredPrompt = null;
+            
+            // Masquer le bouton après l'installation
+            installButton.style.display = 'none';
+        });
+
+        // Redirection après installation
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('NOVASHOP a été installé avec succès!');
+            // Rediriger vers l'application après installation
+            window.location.href = 'https://www.mychariow.com/novashop';
+        });
+
+        // Redirection standard après chargement
+        window.addEventListener('load', function() {
+            // Si l'application n'est pas déjà installée, rediriger après un délai
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                setTimeout(function() {
+                    window.location.href = 'https://www.mychariow.com/novashop';
+                }, 2000);
+            }
+        });
     </script>
 </head>
 <body>
     <div class="loading">
-        <img src="https://i.ibb.co/0jQ7ZJt/novashop-logo.png" alt="NOVASHOP Logo" class="logo">
+        <img src="https://i.ibb.co/0X8Yz2H/logo.png" alt="NOVASHOP" class="logo">
         <div class="spinner"></div>
-        <h2>Chargement de votre boutique...</h2>
-        <p>Redirection en cours vers NOVASHOP</p>
+        <p>Chargement de l'application...</p>
+        <button id="installButton" class="install-button" style="display: none;">
+            Télécharger l'application
+        </button>
     </div>
+    <p>Redirection en cours vers NOVASHOP</p>
 </body>
 </html>
