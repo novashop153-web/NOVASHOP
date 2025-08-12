@@ -2,13 +2,15 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffcc00">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#ffcc00">
     <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192x192.png" type="image/png">
     <title>NOVASHOP</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body, html {
             margin: 0;
@@ -22,7 +24,7 @@
             align-items: center;
             font-family: Arial, sans-serif;
         }
-        .loading {
+        .container {
             text-align: center;
             padding: 30px;
             background: white;
@@ -32,7 +34,6 @@
             max-width: 350px;
             margin: 0 auto;
         }
-        
         .logo {
             max-width: 200px;
             margin-bottom: 20px;
@@ -52,6 +53,24 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        .loading {
+            display: none;
+        }
+        .install-button {
+            background-color: #ffcc00;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .install-button:hover {
+            background-color: #ff9900;
+        }
+        .small {
+            font-size: 14px;
+            color: #666;
         }
     </style>
     <script>

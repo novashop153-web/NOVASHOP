@@ -1,21 +1,84 @@
 {
   "name": "NOVASHOP",
   "short_name": "NOVASHOP",
-  "description": "Boutique en ligne NOVASHOP - Mode, maison, électronique, beauté",
-  "start_url": "/index.html",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ffcc00",
+  "theme_color": "#ff6b00",
+  "description": "Votre boutique en ligne préférée, maintenant en application !",
+  "orientation": "portrait",
+  "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-192x192.png",
-      "sizes": "192x192",
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
       "type": "image/png"
     },
     {
-      "src": "icon-512x512.png",
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/screenshot2.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nouveautés",
+      "short_name": "Nouveautés",
+      "description": "Découvrez nos nouveaux produits",
+      "url": "/nouveautes?source=pwa",
+      "icons": [{ "src": "icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Promotions",
+      "short_name": "Promotions",
+      "description": "Nos offres spéciales",
+      "url": "/promotions?source=pwa"
     }
   ]
 }
