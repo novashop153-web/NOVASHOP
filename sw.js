@@ -11,8 +11,10 @@ const URLS_TO_CACHE = [
   '/style.css',
   '/app.js',
   '/manifest.json',
-  'https://i.ibb.co/0X8Yz2H/logo.png',
-  // Ajoutez d'autres ressources statiques importantes ici
+  '/logo.png',
+  '/offline.html',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
 ];
 
 // Installation du Service Worker
@@ -84,24 +86,33 @@ self.addEventListener('fetch', event => {
     return;
   }
   
-  // Gestion des requêtes de navigation (pages HTML) - Network First, fallback au cache
+  // Gestion des requêtes de navigation (pages HTML) - Cache First, fallback au réseau
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
-        .then(networkResponse => {
-          // Si la réponse est valide, la mettre en cache et la renvoyer
-          if (networkResponse && networkResponse.status === 200) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(request, responseToCache));
+      caches.match(request)
+        .then(cachedResponse => {
+          // Essayer d'abord de récupérer depuis le cache
+          if (cachedResponse) {
+            return cachedResponse;
           }
-          return networkResponse;
-        })
-        .catch(() => {
-          // En cas d'échec, essayer de récupérer depuis le cache
-          return caches.match('/')
-            .then(cachedResponse => {
-              return cachedResponse || caches.match(OFFLINE_URL);
+          
+          // Si pas dans le cache, essayer le réseau
+          return fetch(request)
+            .then(networkResponse => {
+              // Si la réponse est valide, la mettre en cache et la renvoyer
+              if (networkResponse && networkResponse.status === 200) {
+                const responseToCache = networkResponse.clone();
+                caches.open(CACHE_NAME)
+                  .then(cache => cache.put(request, responseToCache));
+              }
+              return networkResponse;
+            })
+            .catch(() => {
+              // Si le réseau échoue, retourner la page d'accueil depuis le cache
+              return caches.match('/')
+                .then(cachedResponse => {
+                  return cachedResponse || caches.match(OFFLINE_URL);
+                });
             });
         })
     );
